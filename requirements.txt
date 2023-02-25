@@ -1,0 +1,15 @@
+pandas_datareader
+nltk
+stopwords
+flask
+pandas
+gunicorn
+xgboost
+praw
+yfinance
+IPython
+numpy
+data
+requests
+sklearn
+datetime
