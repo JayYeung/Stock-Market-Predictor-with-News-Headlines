@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+<style>
+form {
+    margin: auto;
+    width: 80%;
+}
+.result {
+    margin: auto;
+    width: 80%;
+    border: 1px solid #ccc;
+}
+.head{
+    font-size: 50px; 
+}
+body {font-family: Arial;}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+.tabcontent {
+  animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
+<head>
+    <title>Stock Prediction Model</title>
+    <h1 style="font-size:3vw">Stock Market Robot</h1>
+</head>
+
+<body>
+
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'What')">What is a Stock Market Prediction Model?</button>
+        <button class="tablinks" onclick="openCity(event, 'Why')">Why did I create this?</button>
+        <button class="tablinks" onclick="openCity(event, 'AI')">What AI programs do the bot use?</button>
+        <button class="tablinks" onclick="openCity(event, 'Program')" id="defaultOpen">Try it!</button>
+        <button class="tablinks" onclick="openCity(event, 'Improve')">How can I improve it?</button>
+        <button class="tablinks" onclick="openCity(event, 'About')">About Me/Conatct Me</button>
+        
+    </div>
+      
+      <!-- Tab content -->
+      <div id="What" class="tabcontent">
+        <h3>What is a Stock Market Prediction Robot?</h3>
+        <p style="font-size:1vw">A stock market prediction robot predicts the stock market trends of a particular stock.
+             It does this by consuming <b>news headlines, historical performance data, and company finances </b>
+             coupled with <b>Artificial Intelligence </b> to make this prediction. My current robot can predict market trends with ~80% accuracy. 
+        <br>
+        I made this as a proof of concept, however, I might launch this as an actual application in the future!
+        </p>
+        <img src="https://media.istockphoto.com/photos/digitally-enhanced-shot
+        -of-a-graph-showing-the-ups-and-downs-shares-picture-id1322201350?s=612x612" alt="broken" style="width:40vw;height:20vw;">
+      </div>
+      <div id="Why" class="tabcontent">
+        <h3>Why did I create this?</h3>
+        <p>Ever since I was young, I was interested in stocks. I love the concept of stocks. In my high school business class, I took part in a 
+            stock market simulation game where we were given lots of simulation money to invest with. Since I wasn't too good with investing, I decided
+            to create a stock market robot using artificial intelligence. This project was really fun and I learned a lot about artificial intelligence, 
+            natural language processing, and launching a website. 
+        </p>
+        <img src="https://www.lemonadeday.org/sites/default/files/inline-images/Teaching-Kids-about-Investing.jpg" alt="broken" style="width:448px;height:299px;">
+      </div>
+      <div id="AI" class="tabcontent">
+        <h3>What AI programs do the bot use?</h3>
+        <p>
+I tested many different artificial intelligence programs, here are the results:
+<br>  
+<br> ~using 700 data points (AAPL) 
+<br> Naive Bayes Accuracy: 54%
+<br> Linear Regression: 62%
+<br> SVM (Support Vector Machine): 62.5%
+<br> Neural Net: 58%
+<br> Random Forest: 59%
+<br> 
+<br> ~using 700 data points (TSLA)
+<br> Naive Bayes Accuracy: 50%
+<br> Linear Regression: 54%
+<br> SVM (Support Vector Machine): 56%
+<br> Neural Net: 56%
+<br> Random Forest: 56%
+<br> 
+<br> ~using 20,000 data points + additional history of trends (TSLA and AAPL) (trained on only training data)
+<br> Naive Bayes Accuracy: 40%
+<br> Linear Regression: 44%, 100%
+<br> SVM (Support Vector Machine): 75%, 85%
+<br> Neural Net: 60%, 88%
+<br> Random Forest: 60%, 88%
+<br> 
+<br> I ended up going with a <b>random forest decision tree model</b> as it yielded the highest accuracy in predicting stock trend. 
+<br> <a href="https://colab.research.google.com/drive/16B1JqUOd8ZUQrqnJOqQr-U8LkaADcR5D?usp=sharing">See my program on google colab</a>
+<br> or <a href="https://github.com/JayBoiLol/GoBot/blob/master/Polygence_Project.ipynb"> on my github!</a>
+</p>
+      </div>
+      
+      <div id="Program" class="tabcontent">
+        <h3>Try some inputs!</h3>
+        <form action="{{ url_for('main') }}" method="POST">
+            <fieldset>
+                <legend>Input values:</legend>
+                Stock Name (hint: tesla):
+                <input name="stockname" type="string" required>
+                <p></p>Ticker (hint: TSLA): 
+                <input name="ticker" type="string" required>
+                <p></p>
+                <br>
+                <input type="submit">
+                <p>Please give up to 30 seconds after submitting.</p>
+            </fieldset>
+        </form>
+        <br>
+        <div class="result" align="left">
+            {% if status %}
+                {% for variable, value in original_input.items() %}
+                    <b>{{ variable }}</b> : {{ value }} <p></p>
+                {% endfor %}
+                <br> Stock Market Bot thinks that the stock will go <b>{{ result }} in price </b>
+                <p>A few <b>headlines</b> that were considered:</p>
+                <br>{{ headlines }}
+                <p>The recent <b>trends</b> that were considered:</p>
+                <br>{{ history }}
+            {% else %}
+                <br>Try again with proper input!
+            {% endif %}
+        </div>
+      </div>
+      <div id="Improve" class="tabcontent">
+        <h3>How can I improve it?</h3>
+        <p style="font-size:1vw"> I can increase the accuracy of the prorgam by feeding it with more testing data and 
+          using different sources for each company instead of just one. I can also add the accuracy each day for the website
+          and display that on the website to give it credibility (for a few given stocks).
+        </p>
+      </div>
+      <div id="About" class="tabcontent">
+        <h3>About Me</h3>
+        <p> Hello! My name is Jay. I'm just a highschooler. I love coding and am an aspiring computer scientist.
+<br>
+<h3>Contact Me</h3>
+<br>
+<br>Jay Yeung            
+<br> <a href="mailto:JayYeungScout@gmail.com">JayYeungScout@gmail.com</a>
+<br>(650) 293-7697
+             </p>
+      </div>
+      <script>
+        function openCity(evt, cityName) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablinks");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
+          document.getElementById(cityName).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+        document.getElementById("defaultOpen").click();
+        </script>
+</body>
+
+</html>
